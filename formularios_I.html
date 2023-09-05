@@ -1,0 +1,181 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Formularios I</title>
+<style>
+
+body{
+	background-color:#FFC;
+}
+
+#principal{
+	
+	padding:10px 10px 10px 50px;
+	background-color:#F93;	
+	box-shadow: 10px 10px 5px 0px #999999;
+	border-radius: 10px;
+}
+
+td{
+	padding-bottom:25px;
+}
+h1{
+	text-align:center;
+}
+
+
+</style>
+<script src="https://code.jquery.com/jquery-1.6.3.js" integrity="sha256-m6oQ4cVjDD3Nm7Rr8AkTzJSzhV1YyUWa6YSDOcVm6Xs=" crossorigin="anonymous"></script>
+
+<script>
+
+	$(document).ready(function() {
+//cuando este dentro del campo de texto nombre, con la clase focus que selecciona la caja
+    $("#nombre").focus(function(){
+     //creamos una variable
+      var campo_nombre=$(this);
+      //condicional que dice que si el campo tiene el value="obligatorio nombre"
+      if(campo_nombre.val()==campo_nombre.attr("value")){
+       //vacia el campo de nombre
+        campo_nombre.val("");
+      }
+    });
+
+    //apuntamos al id del formularío, para que al darle a submit realice un envio
+    $("#form_datos").submit(function(){
+
+      //dentro de la clase submit tiene una fi¡ución anonima, que dice que si nombre, su valor esta vacio, o el value es igual a obligatorio nombre salga una alerta que diga introduzca nombre
+      if($("#nombre").val()== "" || $("#nombre").val()=="Obligatorio Nombre"){
+
+        alert("por favor, completa el nombre");
+       //añadimos está linea para que no siga el proceso de evento, y así al darle a enviar sin que tengamos ningún campo rellenado no lo envie
+        return false;
+      }
+
+    });
+    //campo edad, con la clase blur hacemos que cuando el cursor deje de estar en el foco, con una función anonima
+    $("#edad").blur(function(){
+      //variable con el valor que añada el usuario
+      var edad_usuario=$(this).val();
+      //condicional, evalua que si no es un número
+      if(isNaN(edad_usuario)){
+        alert("Por favor, introduce un valor númerico");
+        //vuelve a seleccionar el campo edad
+        $(this).focus();
+        //borra campo edad
+        $(this).val("");
+      }
+
+    });
+    //creamos un array para almacenar las posiciones del checkbox
+    var miArray=new Array ();
+    var i=0;
+    $(":checkbox").click(function(){
+      //aquí almacenara la posicion 0 del array lo que contenga el valor clicado
+      miArray[i]=$(this).val();
+      //muestra información de la posicion del array
+      //alert("Posición" + i + " " + miArray[i]);
+      //almacena en el contenedor los check que vayamos marcando y con el br hace un salto de linea. Utilizando la clase append para añadir
+      $("#aficiones_almacenadas").append(miArray[i]).append("<br>");
+      //incrementa la posición
+      i++;
+
+    });
+    //el change no se ejecuta hasta que camie de opción, como es un desplegable al seleccionar cualquier pais salta el mensaje del pais seleccionado
+    $("#pais").change(function(){
+
+      alert("País de residencía " + $(this).val());
+    })
+   
+
+		
+	});
+</script>
+</head>
+
+<body>
+<h1>Envío de datos</h1>
+<div id="contenedor">
+<form id="form_datos">
+  <table width="20%" border="0" align="center" id="principal">
+    <tr>
+      <td>Nombre:</td>
+      <td><label for="nombre"></label>
+        <input type="text" name="nombre" id="nombre" value="Obligatorio Nombre"></td>
+    </tr>
+    <tr>
+      <td>Apellido:</td>
+      <td><input type="text" name="apellido" id="apellido"></td>
+    </tr>
+    <tr>
+      <td>Edad:</td>
+      <td><input type="text" name="edad" id="edad"></td>
+    </tr>
+    <tr>
+      <td>Género:</td>
+      <td><p>
+        <label>
+          <input type="radio" name="genero" value="Masculino" id="masculino">
+          masculino</label>
+        <br>
+        <label>
+          <input type="radio" name="genero" value="Femenino" id="femenino">
+          femenino</label>
+        <br>
+      </p></td>
+    </tr>
+    <tr>
+      <td>País:</td>
+      <td><label for="pais"></label>
+        <select name="pais" id="pais">
+          <option>España</option>
+          <option>México</option>
+          <option>Colombia</option>
+          <option>Perú</option>
+          <option>Chile</option>
+          <option>Argentina</option>
+        </select></td>
+    </tr>
+    <tr>
+      <td>Aficiones:</td>
+      <td><table width="200">
+        <tr>
+          <td><label>
+            <input type="checkbox" name="deporte" value="Deporte" id="deporte">
+            deporte</label></td>
+          <td><label>
+            <input type="checkbox" name="informatica" value="Informática" id="informatica">
+            informatica</label></td>
+        </tr>
+        <tr>
+          <td><label>
+            <input type="checkbox" name="lectura" value="Lectura" id="lectura">
+            lectura</label></td>
+          <td><label>
+            <input type="checkbox" name="cine" value="Cine" id="cine">
+            cine</label></td>
+        </tr>
+        <tr>
+          <td><label>
+            <input type="checkbox" name="bares" value="Bares" id="bares">
+            bares</label></td>
+          <td><label>
+            <input type="checkbox" name="naturaleza" value="Naturaleza" id="naturaleza">
+            Naturaleza</label></td>
+        </tr>
+       
+      </table></td>
+    </tr>
+    <tr>
+    <td colspan="2" align="center"><input type="submit" value="Enviar" id="comprobar"></td>
+   
+    </tr>
+  </table>
+  </form>
+</div>
+<!-- creamos un contenedor para almacenar todas las aficiones -->
+<div id="aficiones_almacenadas"></div>
+
+</body>
+</html>
